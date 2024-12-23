@@ -1,3 +1,8 @@
 build/
 .vs
 .spv
+.xmake/
+.cache/
+build/
+.luarc.json
+compile_commands.json
