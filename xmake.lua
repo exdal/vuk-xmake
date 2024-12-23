@@ -1,7 +1,6 @@
-includes("packages.lua")
-
 set_project("vuk")
 
+add_repositories("exdal https://github.com/exdal/xmake-repo.git")
 add_requires("vulkan-memory-allocator v3.1.0")
 add_requires("concurrentqueue v1.0.4")
 add_requires("fmt 11.0.2")
@@ -9,7 +8,7 @@ add_requires("plf_colony v7.41")
 add_requires("robin-hood-hashing 3.11.5")
 add_requires("stb 2024.06.01")
 add_requires("function2 4.2.4")
-add_requires("spirv-cross-vuk 1.3.268+0")
+add_requires("spirv-cross 1.3.268+0")
 add_requires("small_vector 2024.12.23")
 
 target("vuk")
@@ -30,7 +29,7 @@ target("vuk")
 
     -- private packages
     add_packages(
-        "spirv-cross-vuk",
+        "spirv-cross",
         "concurrentqueue",
         "stb",
         { public = false })
