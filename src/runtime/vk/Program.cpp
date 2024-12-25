@@ -2,7 +2,7 @@
 #include "vuk/Hash.hpp"
 #include "vuk/ShaderSource.hpp"
 
-#include <spirv_cross.hpp>
+#include <spirv_cross/spirv_cross.hpp>
 
 static auto binding_cmp = [](auto& s1, auto& s2) {
 	return s1.binding < s2.binding;
