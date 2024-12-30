@@ -13,7 +13,7 @@ add_requires("small_vector 2024.12.23")
 
 option("debug_allocations")
     set_default(false)
-    add_defines("VUK_DEBUG_ALLOCTIONS")
+    add_defines("VUK_DEBUG_ALLOCATIONS=1")
 option_end()
 
 target("vuk")
