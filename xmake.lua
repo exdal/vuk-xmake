@@ -11,11 +11,18 @@ add_requires("function2 4.2.4")
 add_requires("spirv-cross 1.3.268+0")
 add_requires("small_vector 2024.12.23")
 
+option("debug_allocations")
+    set_default(false)
+    add_defines("VUK_DEBUG_ALLOCTIONS")
+option_end()
+
 target("vuk")
     set_kind("static")
     add_languages("cxx20")
     add_files("src/**.cpp")
     add_includedirs("include/", { public = true })
+
+    add_options("debug_allocations")
 
     -- public packages
     add_packages(
