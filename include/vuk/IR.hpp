@@ -552,6 +552,8 @@ namespace vuk {
 			}
 			break;
 		}
+		default:
+			break;
 		}
 	}
 
@@ -969,6 +971,7 @@ namespace vuk {
 		std::byte arena[size];
 		std::byte* base;
 		std::byte* cur;
+		std::vector<std::unique_ptr<char[]>> large_allocs;
 
 		InlineArena() {
 			base = cur = arena;
@@ -980,6 +983,11 @@ namespace vuk {
 		}
 
 		void* ensure_space(size_t ns) {
+			if (ns > size) {
+				auto& alloc = large_allocs.emplace_back(new char[ns]);
+				return static_cast<void*>(alloc.get());
+			}
+
 			if ((size - (cur - base)) < ns) {
 				grow();
 			}
