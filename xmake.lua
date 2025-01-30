@@ -1,3 +1,4 @@
+add_rules("mode.release", "mode.debug")
 set_project("vuk")
 
 add_repositories("exdal https://github.com/exdal/xmake-repo.git")
