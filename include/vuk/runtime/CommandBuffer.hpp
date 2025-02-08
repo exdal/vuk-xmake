@@ -45,6 +45,29 @@ namespace vuk {
 		eInstance = VK_VERTEX_INPUT_RATE_INSTANCE,
 	};
 
+	struct DispatchIndirectCommand {
+		uint32_t x = {};
+		uint32_t y = {};
+		uint32_t z = {};
+		operator VkDispatchIndirectCommand const&() const noexcept {
+			return *reinterpret_cast<const VkDispatchIndirectCommand*>(this);
+		}
+
+		operator VkDispatchIndirectCommand&() noexcept {
+			return *reinterpret_cast<VkDispatchIndirectCommand*>(this);
+		}
+
+		bool operator==(VkDispatchIndirectCommand const& rhs) const noexcept {
+			return (x == rhs.x) && (y == rhs.y) && (z == rhs.z);
+		}
+
+		bool operator!=(VkDispatchIndirectCommand const& rhs) const noexcept {
+			return !operator==(rhs);
+		}
+	};
+	static_assert(sizeof(DispatchIndirectCommand) == sizeof(VkDispatchIndirectCommand), "struct and wrapper have different size!");
+	static_assert(std::is_standard_layout_v<DispatchIndirectCommand>, "struct wrapper is not a standard layout!");
+
 	struct DrawIndirectCommand {
 		uint32_t vertexCount = {};
 		uint32_t instanceCount = {};
@@ -285,6 +308,7 @@ namespace vuk {
 		std::pair<VkDescriptorSet, VkDescriptorSetLayout> persistent_sets[VUK_MAX_SETS] = {};
 
 		CommandBuffer(Stream& stream, Runtime& ctx, Allocator& allocator, VkCommandBuffer cb, std::optional<RenderPassInfo> ongoing = {});
+
 	public:
 		/// @brief Retrieve parent runtime
 		Runtime& get_context() {
@@ -595,6 +619,10 @@ namespace vuk {
 		/// @brief Issue an indirect compute dispatch
 		/// @param indirect_buffer Buffer of workgroup counts
 		CommandBuffer& dispatch_indirect(const Buffer& indirect_buffer);
+
+		/// @brief Issue an indirect compute dispatch
+		/// @param commands Indirect commands to be uploaded and used for this draw
+		CommandBuffer& dispatch_indirect(std::span<DispatchIndirectCommand> commands);
 
 		/// @brief Perform ray trace query with a ray tracing pipeline
 		/// @param width width of the ray trace query dimensions
